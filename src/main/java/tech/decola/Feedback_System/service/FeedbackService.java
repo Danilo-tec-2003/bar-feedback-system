@@ -1,4 +1,5 @@
 package tech.decola.Feedback_System.service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.decola.Feedback_System.models.Feedback;
@@ -17,15 +18,15 @@ public class FeedbackService {
         return feedbackRepository.save(feedback);
     }
 
-    public List<Feedback> listFeedbacks() {
-        return feedbackRepository.findAll();
-    }
-
     public Optional<Feedback> searchFeedbackById(Long id) {
         return feedbackRepository.findById(id);
     }
 
-    public void deleteFeedback(long id) {
+    public List<Feedback> getAllFeedbacks() {
+        return feedbackRepository.findAll(); // Retorna todos os feedbacks
+    }
+
+    public void deleteFeedback(Long id) {
         feedbackRepository.deleteById(id);
     }
 }
