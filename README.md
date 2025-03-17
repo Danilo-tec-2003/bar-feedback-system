@@ -1,4 +1,4 @@
-# Feedback System
+# Feedback System (Projeto Decola Tech)
 
 ## Descrição
 O **Feedback System** é uma API REST desenvolvida em **Java com Spring Boot**, que permite que clientes avaliem um bar com base na qualidade do serviço, das bebidas e do ambiente. Os feedbacks são armazenados em um banco de dados e podem ser consultados pelos administradores para melhorar a experiência do cliente.
