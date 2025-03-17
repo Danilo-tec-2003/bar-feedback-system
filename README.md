@@ -54,7 +54,6 @@ feedback-system/
 │   │   ├── service/       # Regras de negócio
 │   │   ├── repository/    # Repositórios JPA
 │   │   ├── model/         # Entidades
-│   │   ├── dto/           # Data Transfer Objects
 │── src/test/java/...      # Testes unitários e de integração
 │── pom.xml                # Dependências do projeto
 │── README.md              # Documentação
