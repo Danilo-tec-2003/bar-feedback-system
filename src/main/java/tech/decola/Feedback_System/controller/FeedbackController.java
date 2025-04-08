@@ -2,6 +2,7 @@ package tech.decola.Feedback_System.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.decola.Feedback_System.models.Feedback;
 import tech.decola.Feedback_System.service.FeedbackService;
@@ -16,19 +17,25 @@ public class FeedbackController {
     private FeedbackService feedbackService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Feedback createFeedback(@RequestBody Feedback feedback) {
-        return feedbackService.saveFeedback(feedback);
+    public ResponseEntity<Feedback> createFeedback(@RequestBody Feedback feedback) {
+        Feedback savedFeedback = feedbackService.saveFeedback(feedback);
+        return new ResponseEntity<>(savedFeedback, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public Optional<Feedback> searchFeedbackById(@PathVariable Long id) {
-        return feedbackService.searchFeedbackById(id);
+    public ResponseEntity<Feedback> searchFeedbackById(@PathVariable Long id) {
+        Optional<Feedback> feedback = feedbackService.searchFeedbackById(id);
+        return feedback.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteFeedback(@PathVariable Long id) {
-        feedbackService.deleteFeedback(id);
+    public ResponseEntity<Void> deleteFeedback(@PathVariable Long id) {
+        Optional<Feedback> feedback = feedbackService.searchFeedbackById(id);
+        if (feedback.isPresent()) {
+            feedbackService.deleteFeedback(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

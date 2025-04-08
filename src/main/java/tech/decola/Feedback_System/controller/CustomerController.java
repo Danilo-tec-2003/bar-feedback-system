@@ -1,6 +1,9 @@
 package tech.decola.Feedback_System.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import tech.decola.Feedback_System.models.Customer;
@@ -17,9 +20,9 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Customer createCustomer(@RequestBody Customer customer) {
-        return customerService.saveCustomer(customer);
+    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
+        Customer savedCustomer = customerService.saveCustomer(customer);
+        return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -28,13 +31,19 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Customer> searchCustomerById(@PathVariable Long id) {
-        return customerService.searchCustomerById(id);
+    public ResponseEntity<Customer> searchCustomerById(@PathVariable Long id) {
+        Optional<Customer> customer = customerService.searchCustomerById(id);
+        return customer.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCustomer(@PathVariable Long id) {
-        customerService.deleteCustomer(id);
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+        Optional<Customer> customer = customerService.searchCustomerById(id);
+        if (customer.isPresent()) {
+            customerService.deleteCustomer(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
