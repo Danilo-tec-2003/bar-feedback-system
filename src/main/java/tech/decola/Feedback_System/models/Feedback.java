@@ -1,6 +1,6 @@
 package tech.decola.Feedback_System.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;  // Importando a anotação
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +16,7 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idFeedback;
 
     @NotNull(message = "Comentário não pode ser nulo.")
     @Size(min = 5, max = 255, message = "Comentário deve ter entre 5 e 255 caracteres.")
@@ -27,8 +27,8 @@ public class Feedback {
     @Max(value = 5, message = "Nota não pode ser maior que 5.")
     private Integer note;
 
-    @ManyToOne  // Um cliente pode ter vários feedbacks
+    @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    @JsonBackReference  // Impede a serialização recursiva do feedback em customer
+    @JsonBackReference
     private Customer customer;
 }
