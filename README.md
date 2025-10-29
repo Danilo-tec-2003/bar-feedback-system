@@ -1,74 +1,114 @@
-# Feedback System (Projeto Decola Tech)
+# 🍻 Bar Feedback System - API REST
 
-## Descrição
-O **Feedback System** é uma API REST desenvolvida em **Java com Spring Boot**, que permite que clientes avaliem um bar com base na qualidade do serviço, das bebidas e do ambiente. Os feedbacks são armazenados em um banco de dados e podem ser consultados pelos administradores para melhorar a experiência do cliente.
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![Java](https://img.shields.io/badge/Java-23%2B-blue?logo=java&logoColor=white)
+![Spring](https://img.shields.io/badge/Spring%20Boot-3.x-green?logo=spring&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?logo=postgresql&logoColor=white)
 
-## Tecnologias Utilizadas
-- **Java 23**
-- **Spring Boot**
-- **Spring Data JPA**
-- **PostgreSQL**
-  
-  
+O **Feedback System** é uma API REST desenvolvida em **Java com Spring Boot**, que permite que clientes avaliem um bar com base na qualidade do serviço, das bebidas e do ambiente. Os feedbacks são armazenados para consulta e melhoria da experiência do cliente.
 
-## Funcionalidades
+---
+
+## 📋 Índice
+
+- [✨ Features Principais](#-features-principais)
+- [🚀 Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [🧠 Decisões de Arquitetura](#-decisões-de-arquitetura)
+- [🛠️ Como Executar o Projeto](#️-como-executar-o-projeto)
+- [🌳 Fluxo de Commits (Git Flow)](#-fluxo-de-commits-git-flow)
+- [👨‍💻 Autor](#-autor)
+
+---
+
+## ✨ Features Principais
+
 - **Cadastro de Feedbacks**: Clientes podem avaliar o serviço, as bebidas e o ambiente do bar.
 - **Consulta de Feedbacks**: Administradores podem visualizar e filtrar os feedbacks.
-- **Gerenciamento de Usuários** (se aplicável): Controle de acesso para admins e clientes.
+- **Gerenciamento de Usuários**: Controle de acesso para administradores e clientes.
+- **Documentação da API**: Geração automática da documentação com SpringDoc (Swagger) para fácil consumo.
 
-## Como Executar o Projeto
-### 1. Clonar o Repositório
-```bash
-  git clone https://github.com/seu-usuario/feedback-system.git
-  cd feedback-system
-```
+---
 
-### 2. Configurar o Banco de Dados
-Altere o arquivo `application.properties` ou `application.yml` para conectar ao seu banco de dados PostgreSQL:
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/feedback_db
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
-spring.jpa.hibernate.ddl-auto=update
-```
+## 🚀 Tecnologias Utilizadas
 
-### 3. Construir e Executar a Aplicação
-```bash
-  mvn clean install
-  mvn spring-boot:run
-```
-A API estará disponível em: `http://localhost:8080`
+- **Backend:**
+  - Java 23
+  - Spring Boot 3.x
+  - Spring Data JPA (Hibernate)
+  - SpringDoc (Swagger)
+- **Banco de Dados:**
+  - PostgreSQL
+- **Ferramentas de Build e Ambiente:**
+  - Maven
+  - Git & GitHub
 
-## Documentação da API
-Acesse a documentação via Swagger em:
-```url
-http://localhost:8080/swagger-ui.html
-```
+---
 
-## Estrutura do Projeto
-```
-feedback-system/
-│── src/
-│   ├── main/java/com/seuusuario/feedbacksystem/
-│   │   ├── controller/    # Controllers da API
-│   │   ├── service/       # Regras de negócio
-│   │   ├── repository/    # Repositórios JPA
-│   │   ├── model/         # Entidades
-│── src/test/java/...      # Testes unitários e de integração
-│── pom.xml                # Dependências do projeto
-│── README.md              # Documentação
-```
+## 🧠 Decisões de Arquitetura
 
-## Status das Branches
-- **`main`**: Contém a versão estável da API, mas ainda está faltando algumas funcionalidades que serão implementadas nas próximas releases.
-- **`QA`**: Esta branch está sendo utilizada para testes, mas atualmente apresenta falhas que estão sendo corrigidas.
+Mesmo sendo um projeto para fins de estudo, optei por aplicar práticas de mercado que demonstram organização e escalabilidade.
 
-## Contribuição
-Caso queira contribuir:
-1. Fork este repositório.
-2. Crie uma branch com sua feature/bugfix (`git checkout -b minha-feature`).
-3. Faça commit das suas alterações (`git commit -m 'Adicionando nova funcionalidade'`).
-4. Envie para o repositório remoto (`git push origin minha-feature`).
-5. Abra um Pull Request.
+1.  **Arquitetura em Camadas (Layered Architecture):**
+    O projeto foi dividido em camadas de responsabilidade única, seguindo o padrão do Spring:
+    - `controller`: Lida exclusivamente com as requisições HTTP (endpoints da API).
+    - `service`: Orquestra a lógica de negócio da aplicação.
+    - `repository`: É a única camada responsável pela comunicação com o banco de dados via JPA.
+    - `model`: Representa as entidades do banco de dados (ex: Feedback, User).
 
+2.  **Padrão RESTful:**
+    A API segue os princípios REST, utilizando os verbos HTTP corretos (`GET`, `POST`, `PUT`, `DELETE`) e códigos de status apropriados para representar o resultado das operações.
 
+---
+
+## 🛠️ Como Executar o Projeto
+
+**Pré-requisitos:**
+- Java (JDK) 23 ou superior
+- Maven 3.8 ou superior
+- PostgreSQL (rodando localmente ou em um container)
+
+**Passo a passo:**
+
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/Danilo-tec-2003/bar-feedback-system.git](https://github.com/Danilo-tec-2003/bar-feedback-system.git)
+    cd bar-feedback-system
+    ```
+
+2.  **Configure o Banco de Dados:**
+    Crie um banco de dados no PostgreSQL (ex: `feedback_db`).
+    Ajuste o arquivo `src/main/resources/application.properties` com suas credenciais:
+    ```properties
+    spring.datasource.url=jdbc:postgresql://localhost:5432/feedback_db
+    spring.datasource.username=seu_usuario
+    spring.datasource.password=sua_senha
+    spring.jpa.hibernate.ddl-auto=update
+    ```
+
+3.  **Execute a aplicação Spring Boot:**
+    Use o Maven para compilar e iniciar o projeto:
+    ```bash
+    mvn spring-boot:run
+    ```
+
+4.  **Acesse a aplicação:**
+    A API estará disponível em: `http://localhost:8080`
+    
+    A documentação do Swagger UI poderá ser acessada em: `http://localhost:8080/swagger-ui.html`
+
+---
+
+## 🌳 Fluxo de Commits (Git Flow)
+
+Para o versionamento, utilizei o seguinte fluxo de trabalho:
+- `main`: Contém a versão estável da API, mas ainda faltando funcionalidades que serão implementadas nas próximas releases.
+- `QA`: Esta branch está sendo utilizada para testes, mas atualmente apresenta falhas que estão sendo corrigidas.
+- Os commits seguem o padrão de **Commits Semânticos** (`feat`, `fix`, `style`, `docs`, etc.) para manter o histórico do projeto limpo e organizado.
+
+---
+
+## 👨‍💻 Autor
+
+- **Danilo Mendes de Araujo**
+- **LinkedIn:** (https://www.linkedin.com/in/danilomendesaraujo/)
+- **GitHub:** (https://github.com/Danilo-tec-2003)
